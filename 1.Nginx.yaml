@@ -1,13 +1,13 @@
 - name: Installing and Running Nginx  #Generally a best practice to give play name
   hosts: mongodb
   become: yes
-  - tasks:
-    - name: Installing Nginx Server
-      yum:
-        name: nginx
-        state: installed
-    - name: Starting Nginx Server
-        service:
-          name: nginx
-          state: started
+  tasks:
+  - name: Installing Nginx Server
+    yum:
+      name: nginx
+      state: installed
+  - name: Starting Nginx Server
+    service:
+      name: nginx
+      state: started
 
