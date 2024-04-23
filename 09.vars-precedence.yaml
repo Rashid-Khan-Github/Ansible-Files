@@ -14,7 +14,7 @@
     vars:
       NAME: Heihachi
     debug:
-      print: The value of NAME is {{NAME}}
+      msg: The value of NAME is {{NAME}}
       
 # Precedence Flow : 
 
