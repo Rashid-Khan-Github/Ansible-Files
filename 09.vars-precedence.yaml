@@ -2,7 +2,7 @@
   hosts: localhost
   vars:
     NAME: Mishima
-  vars-files:
+  vars_files:
   - variables.yaml
   vars-prompt:
   - name: USERNAME
