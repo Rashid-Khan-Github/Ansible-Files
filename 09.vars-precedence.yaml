@@ -1,0 +1,18 @@
+- name: Testing Variables Precendence
+  hosts: localhost
+  vars:
+    NAME: Mishima
+  vars-files:
+  - variables.yaml
+  vars-prompt:
+  - name: USERNAME
+    prompt: Please Enter your Username
+    private: false
+
+  tasks:
+  - name: Printing the value of NAME for precedence checking..!
+    vars:
+      NAME: Heihachi
+    debug:
+      print: The value of NAME is {{NAME}}
+      

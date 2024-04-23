@@ -4,3 +4,4 @@ roboshop-us-dev-db-mongodb-01.bsebregistration.com
 [mongodb:vars]
 MONGO_USERNAME=mongodbAdmin
 DB_NAME=categories
+NAME=Jin_Invent
