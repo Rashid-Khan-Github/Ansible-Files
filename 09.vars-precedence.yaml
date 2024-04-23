@@ -4,7 +4,7 @@
     NAME: Mishima
   vars_files:
   - variables.yaml
-  vars-prompt:
+  vars_prompt:
   - name: USERNAME
     prompt: Please Enter your Username
     private: false
