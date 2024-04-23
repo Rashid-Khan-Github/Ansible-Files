@@ -3,4 +3,4 @@
   tasks:
   - name: Printing variables from Inventory file
     debug:
-      msg: Username from Mongo -- {{MONGO_USERNAME}} and DB Name is {{DB_NAME}}
+      msg: Username from Mongo {{MONGO_USERNAME}} and DB Name is {{DB_NAME}}
