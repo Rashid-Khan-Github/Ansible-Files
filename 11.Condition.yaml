@@ -3,7 +3,7 @@
   vars:
     NAME: DevOps
   tasks:
-  - name: Print if NAME = DevOps
+  - name: Print if NAME = DevOps1
     debug:
       msg: Name of the Course = {{NAME}}
     when: NAME == "DevOps"
