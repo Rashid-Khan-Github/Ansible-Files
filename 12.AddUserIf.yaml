@@ -1,0 +1,22 @@
+- name: Adding user if not available
+  hosts: localhost
+  tasks: 
+  - name: Check if roboshop user exists
+  # When you want to run linux command directly, i.e in this case ansible module is not available
+  # When the user is not available, ansible is treating this as failure and exiting the play by default
+  # To ignore the known errors set : ignore_errors = true
+    command: id roboshop
+    register: cmdOut              # Output is stored in cmdOut      
+    ignore_errors: true
+
+  - name: print the command output
+    debug:
+      msg: "Previous Command output = {{cmdOut}}"
+  - name: print exit status
+    debug:
+      msg: "Exit Status : {{cmdOut.rc}}"
+  - name: create user roboshop
+    become: yes                   # we need root access for this task only
+    user:
+      name: roboshop
+    when: cmdOut.rc != 0          # if this expression is true, then only this module/task will run
