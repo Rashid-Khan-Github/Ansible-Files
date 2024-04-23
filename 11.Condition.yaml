@@ -1,0 +1,9 @@
+- name: Simple IF Condition
+  hosts: localhost
+  vars:
+    NAME: DevOps
+  tasks:
+  - name: Print if NAME = DevOps
+    debug:
+      msg: Name of the Course = {{NAME}}
+    when: NAME == "DevOps"
