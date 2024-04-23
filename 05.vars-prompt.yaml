@@ -1,0 +1,15 @@
+- name: Variables from Prompt
+  hosts: localhost
+  vars_prompt:
+  - name: USERNAME
+    prompt: Please enter your username
+    private: false # False means you can see value on screen
+  - name: PASSWORD
+    prompt: Please enter you password
+    private: true
+  tasks:
+  - name: Printing the values entered..!
+    debug:
+      msg: Your Username is {{USERNAME}} and Password is {{PASSWORD}}
+
+      
