@@ -17,8 +17,8 @@
   tasks:
   - name: Print Number Variable
     debug:
-      msg : {{AGE}}
-      msg : {{NAME}}
-      msg : {{isDevOps}}
-      msg : {{Skills}}
-      msg : {{Experience}}
+      msg : "{{AGE}}"
+      msg : "{{NAME}}"
+      msg : "{{isDevOps}}"
+      msg : "{{Skills}}"
+      msg : "{{Experience}}"
