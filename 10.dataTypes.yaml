@@ -18,7 +18,11 @@
   - name: Print Number Variable
     debug:
       msg : "{{AGE}}"
+    debug:
       msg : "{{NAME}}"
+    debug:
       msg : "{{isDevOps}}"
+    debug:
       msg : "{{Skills}}"
+    debug:
       msg : "{{Experience}}"
