@@ -1,0 +1,24 @@
+- name: Ansible Variables and Data Types
+  hosts: localhost
+  vars:
+  - AGE: 30           #Number
+  - NAME: Rashid      #String
+  - isDevOps: true    #Boolean
+  - Skills:           #List
+    - DevOps
+    - AWS
+    - Spring Boot
+    - Angular
+  - Experience:     #Map
+    - DevOps: 7
+    - AWS: 5
+    - Spring: 3
+
+  tasks:
+  - name: Print Number Variable
+    debug:
+      msg : {{AGE}}
+      msg : {{NAME}}
+      msg : {{isDevOps}}
+      msg : {{Skills}}
+      msg : {{Experience}}

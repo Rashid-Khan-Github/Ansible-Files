@@ -16,3 +16,12 @@
     debug:
       print: The value of NAME is {{NAME}}
       
+# Precedence Flow : 
+
+# 1.  Command Line Arguments
+# 2.  Task Level Variables
+# 3.  File Variables
+# 4.  Prompt
+# 5.  Play
+# 6.  Inventory
+# 7.  Roles
