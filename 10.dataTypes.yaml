@@ -18,11 +18,19 @@
   - name: Print Number Variable
     debug:
       msg : "{{AGE}}"
+
+  - name: Print String Variable
     debug:
       msg : "{{NAME}}"
+
+  - name: Print Boolean Variable
     debug:
       msg : "{{isDevOps}}"
+
+  - name: Print List Variable
     debug:
       msg : "{{Skills}}"
+      
+  - name: Print Map Variable
     debug:
       msg : "{{Experience}}"
