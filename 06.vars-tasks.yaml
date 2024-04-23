@@ -1,0 +1,16 @@
+- name: Variables from Files
+  hosts: localhost
+  vars:
+  - money: 100000rs
+    land: 3 Hectares
+  tasks:
+  - name: Printing variables from play level
+    debug:
+      msg: "Money : {{money}}, Land : {{land}}"
+
+  - name: Printing Overridden Variables
+    vars:
+    - money: 300000rs
+      land: 6 Hectares
+    debug:
+      msg: "Money : {{money}}, Land : {{land}}"
