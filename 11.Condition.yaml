@@ -5,5 +5,5 @@
   tasks:
   - name: Print if NAME = DevOps1
     debug:
-      msg: Name of the Course = {{NAME}}
+      msg: "Hello {{NAME}}"
     when: NAME == "DevOps"
