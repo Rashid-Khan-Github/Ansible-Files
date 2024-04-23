@@ -1,0 +1,15 @@
+- name : Variables in Ansible
+  hosts: mongodb
+  # This is play level variable : Map
+  vars:
+    COURSE: DevOps with AWS
+    TRAINER: SivaKumar
+    DURATION: 110Hrs
+
+  tasks:
+  - name: Print Hello!
+    debug:
+      msg: Hello, I'm Learning Ansible..!
+  - name: Print Variables
+    debug:
+      msg: "Hello, I am learning {{COURSE}}, Trainer is {{TRAINER}}, DURATION is {{DURATION}}"
