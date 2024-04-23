@@ -1,0 +1,6 @@
+- name: Variables from Files
+  hosts: localhost
+  tasks:
+  - name: Printing variables from file
+    debug:
+      msg: "We are learning {{COURSE}}"
