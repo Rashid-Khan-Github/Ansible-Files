@@ -6,4 +6,4 @@
   tasks:
   - name: Printing variables from file
     debug:
-      msg: "We are learning {{NAME}}, Duration is {{DURATION}}, Trainer is {{TRAINER}}"
+      msg: "We are learning {{COURSE}}, Duration is {{DURATION}}, Trainer is {{TRAINER}}"
