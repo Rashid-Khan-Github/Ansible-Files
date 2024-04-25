@@ -25,7 +25,8 @@
   - when: cmdOut.rc != 0
     name: Create User Roboshop
     become: true
-    user: roboshop
+    user:
+      name: roboshop
 
   - name: Check /app directory is available or not
     stat:
