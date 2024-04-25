@@ -1,8 +1,8 @@
 - name: Configuring Web Component
   hosts: web
+  become: yes
   tasks:
   - name: Install Nginx
-    become: yes
     yum:
       name: nginx
       state: installed
