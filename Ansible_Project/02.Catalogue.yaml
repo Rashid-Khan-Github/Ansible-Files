@@ -81,7 +81,7 @@
 
   - name: Restarting Catalogue Service
     service:
-      name: catalouge
+      name: catalogue
       state: restarted
       enabled: yes
 
