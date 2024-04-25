@@ -77,7 +77,7 @@
       state: installed
   
   - name: Loading data into MongoDB
-    command: mongo --host mongodb.bsebregistration.com </app/schema/catalogue.js
+    command: mongo --host mongodb.bsebregistration.com < /app/schema/catalogue.js
 
   - name: Restarting Catalogue Service
     service:
