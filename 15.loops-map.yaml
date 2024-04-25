@@ -1,0 +1,14 @@
+- name: Install-Remove Pacakges
+  hosts: mongodb
+  become: true
+  tasks:
+  - name: Package Configuring..
+    yum:
+      name: "{{item.name}}"
+      state: "{{item.state}}"
+    # list of maps
+    loop:
+    - {name: 'nginx', state: 'absent'}
+    - {name: 'postfix', state: 'installed'}
+    - {name: 'cyrus-sasl-plain', state: 'absent'}
+    - {name: 'mailx', state: 'installed'}

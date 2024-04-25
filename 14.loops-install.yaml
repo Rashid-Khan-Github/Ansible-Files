@@ -6,6 +6,7 @@
     yum:
       name: "{{item}}"
       state: installed
+    # list of packages
     loop:
     - nginx
     - postfix
