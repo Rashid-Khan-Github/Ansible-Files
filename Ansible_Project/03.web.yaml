@@ -24,8 +24,8 @@
 
   - name: Downloading Web Archive
     get_url:
-    url: https://roboshop-builds.s3.amazonaws.com/web.zip
-    dest: /tmp
+      url: https://roboshop-builds.s3.amazonaws.com/web.zip
+      dest: /tmp
   
   - name: Unarchiving the Artifacts
     unarchive:
