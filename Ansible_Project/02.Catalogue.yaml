@@ -31,7 +31,7 @@
   - name: Check /app directory is available or not
     stat:
       path: /app
-      register: directory
+    register: directory
   - name: Print directory status
     debug:
       msg: "Directory Status : {{directory}}"
