@@ -4,7 +4,7 @@
   - name: Install Nginx
     yum:
       name: nginx
-      state: present
+      state: installed
 
   - name: Enable and Start Nginx
     service:
