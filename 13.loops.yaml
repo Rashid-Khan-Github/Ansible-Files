@@ -1,0 +1,11 @@
+- name: Looping in Ansible
+  hosts: mongodb
+  tasks:
+  - name: Printing Names
+    debug:
+      msg: {{item}}
+    loop:
+    - Mishima
+    - Java
+    - SpringBoot
+    - DevOps
