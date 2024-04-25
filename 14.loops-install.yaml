@@ -1,0 +1,13 @@
+- name: Installing Packages
+  host: mongodb
+  become: true
+  tasks:
+  - name: Package Installing..
+    yum:
+      name: "{{item}}"
+      state: installed
+    loop:
+    - nginx
+    - postfix
+    - cyrus-sasl-plain
+    - mailx
