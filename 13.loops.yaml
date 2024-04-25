@@ -1,5 +1,5 @@
 - name: Looping in Ansible
-  hosts: mongodb
+  hosts: localhost
   tasks:
   - name: Printing Names
     debug:
