@@ -35,5 +35,56 @@
   - name: Print directory status
     debug:
       msg: "Directory Status : {{directory}}"
+
+  - when: directory.stat.exists == False
+    name: Create app directory if not availabe
+    file:
+      path: /app
+      state: directory
+
+  - name: Download Catalogue Artifacts
+    get_url:
+      url:  https://roboshop-builds.s3.amazonaws.com/catalogue.zip
+      dest: /tmp
+  
+  - name: Unzipping the Artifacts
+    unarchive:
+      src: /tmp/catalogue.zip
+      dest: /app
+      remote_src: yes
+  - name: Change the directory to /app and install dependencies
+    command: npm install
+    args:
+      chdir: /app
+
+  - name: copy catalogue service file to systemd
+    copy:
+      src: catalogue.service
+      dest: /etc/systemd/system/catalogue.service
+
+  - name: Reloading Daemon
+    systemd:
+      daemon_reload: true
+
+  - name: Copy mongodb repo to yum.repos.d
+    copy:
+      src: mongo.repo
+      dest: /etc/yum.repos.d/mongo.repo
+
+  - name: Install MongoDB
+    yum:
+      name: mongodb-org
+      state: installed
+  
+  - name: Loading data into MongoDB
+    command: mongo --host mongodb.bsebregistration.com </app/schema/catalogue.js
+
+  - name: Restarting Catalogue Service
+    service:
+      name: catalouge
+      state: restarted
+      enabled: yes
+
+
       
 
