@@ -1,6 +1,6 @@
 #! /bin/bash
 
-NAMES=("mongodb" "catalogue" "redis" "user" "cart" "mysql" "shipping" "rabbitmq" "payment" "web")
+NAMES=("redis" "user" "cart" "mysql" "shipping" "rabbitmq" "payment")
 INSTANCE_TYPE=""
 IMAGE_ID=ami-0f3c7d07486cad139
 SECURITY_GROUP_ID=sg-03e2563eefcedfe47
