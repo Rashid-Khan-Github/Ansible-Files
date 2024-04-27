@@ -1,0 +1,67 @@
+- name: Preparing cart component
+  hosts: cart
+  become: yes
+  tasks:
+  - name: Setup NPM Source
+    shell: curl -sL https://rpm.nodesource.com/setup_lts.x | bash
+
+  - name: Install NodeJs
+    yum:
+      name: nodejs
+      state: installed
+  
+  - name: Check if Roboshop user exists
+    command: id roboshop
+    register: cmdOut
+    ignore_errors: true
+
+  - when: cmdOut.rc != 0
+    name: Creating user roboshop
+    user:
+      name: roboshop
+
+  - name: Check if /app directory exists
+    stat:
+      path: /app
+      register: directory
+
+  - name: Printing the directory status
+    debug:
+      msg: "Directory Status : {{directory}}"
+
+  - when: directory.stat.exists == False
+    name: Creating /app directory
+    file:
+      path: /app
+      state: directory
+
+  - name: Download catalogue artifacts
+    get_url:
+      url: https://roboshop-builds.s3.amazonaws.com/cart.zip
+      dest: /temp
+
+  - name: Unzipping the Artifacts zip
+    unarchive:
+      src: /tmp/cart.zip
+      dest: /app
+      remote_src: yes
+
+  - name: Install Dependencies
+    command: npm install
+    args:
+      chdir: /app
+  
+  - name: Copy cart service
+    copy:
+      src: cart.service
+      dest: /etc/systemd/system/cart.service
+
+  - name: Reloading Daemon
+    systemd:
+      daemon_reload: true
+
+  - name: Restart cart service
+    service:
+      name: cart
+      state: restarted
+      enabled: true

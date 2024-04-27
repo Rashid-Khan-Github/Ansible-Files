@@ -1,0 +1,80 @@
+- name: Preparing Shipping Component
+  hosts: shipping
+  become: yes
+  tasks:
+  - name: Installing Maven
+    yum:
+      name: maven
+      state: installed
+  
+  - name: Check whether user "Roboshop" is available
+      command: id roboshop
+      register: cmdOut
+      ignore_errors: true
+
+  - when: cmdOut.rc != 0
+    name: Create User Roboshop
+    become: true
+    user:
+      name: roboshop
+
+  - name: Check /app directory is available or not
+    stat:
+      path: /app
+    register: directory
+  - name: Print directory status
+    debug:
+      msg: "Directory Status : {{directory}}"
+
+  - when: directory.stat.exists == False
+    name: Create app directory if not availabe
+    file:
+      path: /app
+      state: directory
+
+  - name: Download Shipping Artifacts and Unzipping
+    unarchive:
+      src: https://roboshop-builds.s3.amazonaws.com/shipping.zip
+      dest: /app 
+      remote_src: yes
+
+  - name: Maven Package
+    command: mvn clean package
+    args:
+      chdir: /app
+
+  - name: Rename jar file
+    command: mv target/shipping-1.0.jar shipping.jar
+    args:
+      chdir: /app
+
+  - name: copy shipping service file to systemd
+    copy:
+      src: shipping.service
+      dest: /etc/systemd/system/shipping.service
+
+  - name: Reloading Daemon
+    systemd:
+      daemon_reload: true
+
+  - name: Installing Mysql Client
+    yum:
+      name: mysql
+      state: installed
+
+  - name: Load Mysql Schema
+    shell: mysql -h mysql.bsebregistration.com -uroot -pRoboShop@1 < /app/schema/shipping.sql 
+
+    - name: Restarting shipping Service
+    service:
+      name: shipping
+      state: restarted
+      enabled: yes
+
+  # What is the difference between command and shell module ?
+  
+  # Ans) Shell : Shell Module is like get into the shell (i.e bash, sh etc or mysql shell) and
+  #              acquire the full user environment and variables.
+
+  #     Command: Command Module simply runs the server command available on the machine. It doesn't get
+  #              into the shell. Input or Output redirections >> << won't work here.

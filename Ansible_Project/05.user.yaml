@@ -1,5 +1,5 @@
-- name: Install catalogue service
-  hosts: catalogue
+- name: Install user service
+  hosts: user
   become: true
   tasks:
   - name: Setup NPM Source
@@ -42,14 +42,14 @@
       path: /app
       state: directory
 
-  - name: Download Catalogue Artifacts
+  - name: Download user Artifacts
     get_url:
-      url:  https://roboshop-builds.s3.amazonaws.com/catalogue.zip
+      url:  https://roboshop-builds.s3.amazonaws.com/user.zip
       dest: /tmp
   
   - name: Unzipping the Artifacts
     unarchive:
-      src: /tmp/catalogue.zip
+      src: /tmp/user.zip
       dest: /app
       remote_src: yes
   - name: Change the directory to /app and install dependencies
@@ -57,10 +57,10 @@
     args:
       chdir: /app
 
-  - name: copy catalogue service file to systemd
+  - name: copy user service file to systemd
     copy:
-      src: catalogue.service
-      dest: /etc/systemd/system/catalogue.service
+      src: user.service
+      dest: /etc/systemd/system/user.service
 
   - name: Reloading Daemon
     systemd:
@@ -77,11 +77,11 @@
       state: installed
   
   - name: Loading data into MongoDB
-    shell: mongo --host mongodb.bsebregistration.com < /app/schema/catalogue.js
+    shell: mongo --host mongodb.bsebregistration.com < /app/schema/user.js
 
-  - name: Restarting Catalogue Service
+  - name: Restarting user Service
     service:
-      name: catalogue
+      name: user
       state: restarted
       enabled: yes
 
