@@ -1,0 +1,63 @@
+- name: Preparing Python Component
+  hosts: rabbitmq
+  become: yes
+  tasks:
+  - name: Installing Python Packages
+    yum:
+      name: "{{item}}"
+      state: installed
+    loop:
+    - python36
+    - gcc
+    - python3-devel
+
+  - name: Check whether user "Roboshop" is available
+    command: id roboshop
+    register: cmdOut
+    ignore_errors: true
+
+  - when: cmdOut.rc != 0
+    name: Create User Roboshop
+    become: true
+    user:
+      name: roboshop
+
+  - name: Check /app directory is available or not
+    stat:
+      path: /app
+    register: directory
+  - name: Print directory status
+    debug:
+      msg: "Directory Status : {{directory}}"
+
+  - when: directory.stat.exists == False
+    name: Create app directory if not availabe
+    file:
+      path: /app
+      state: directory
+
+  - name: Download Payment Artifacts and Unzipping
+    unarchive:
+      src: https://roboshop-builds.s3.amazonaws.com/payment.zip
+      dest: /app 
+      remote_src: yes
+
+  - name: Install Dependencies
+    command: pip3.6 install -r requirements.txt
+    args:
+      chdir: /app
+
+  - name: copy payment service file to systemd
+    copy:
+      src: payment.service
+      dest: /etc/systemd/system/payment.service
+
+  - name: Reloading Daemon
+    systemd:
+      daemon_reload: true
+
+  - name: Restarting payment Service
+    service:
+      name: payment
+      state: restarted
+      enabled: true
