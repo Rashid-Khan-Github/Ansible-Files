@@ -1,0 +1,26 @@
+- name: Copy mongodb repo to yum.repos.d
+  copy:
+    src: mongo.repo
+    dest: /etc/yum.repos.d/mongo.repo
+
+- name: Install MongoDB
+  yum:
+    name: mongodb-org
+    state: installed
+
+- name: Start and Enable MongoDB
+  service:
+    name: mongod
+    state: started
+    enabled: yes
+
+- name: Enable outer connections to MongoDB
+  replace:
+    path: /etc/mongod.conf
+    regexp: '127.0.0.1'
+    replace: '0.0.0.0'
+
+- name: Restart Mongodb
+  service:
+    name: mongod
+    state: restarted
