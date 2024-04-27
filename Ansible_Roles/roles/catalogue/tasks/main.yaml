@@ -1,0 +1,29 @@
+# I need to refer nodejs tasks in common foler
+# catalogue is one role
+# common is also one role
+# I need to import a task nodejs.yaml in catalogue
+
+- name: Installing NodeJs
+  import_role:
+    name: common
+    tasks_from: nodejs
+
+- name: Setup Application (roboshop user creation, /app dir, downloading and unzipping artifacts)
+  import_role:
+    name: common
+    tasks_from: app-setup
+
+- name: Change the directory to /app and install dependencies
+  command: npm install
+  args:
+    chdir: /app
+
+- name: Installing mongodb-shell and loading component data
+  import_role:
+    name: common
+    tasks_from: load-mongo-schema
+
+- name: Copying service file and reloading service
+  import_role:
+    name: common
+    tasks_from: systemd-setup

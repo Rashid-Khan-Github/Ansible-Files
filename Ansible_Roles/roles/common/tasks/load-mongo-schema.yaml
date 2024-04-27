@@ -1,0 +1,12 @@
+- name: Copy mongodb repo to yum.repos.d
+  copy:
+    src: mongo.repo
+    dest: /etc/yum.repos.d/mongo.repo
+
+- name: Installing mongodb-shell
+  yum:
+    name: mongodb-org-shell
+    state: installed
+
+- name: Loading data into MongoDB
+  shell: mongo --host mongodb.bsebregistration.com < /app/schema/{{component}}.js

@@ -1,0 +1,42 @@
+- name: Check whether user "Roboshop" is available
+  command: id roboshop
+  register: cmdOut
+  ignore_errors: true
+
+- name: Print Command Output
+  debug:
+    msg: "Command Output : {{cmdOut}}"
+- name: Print Exit Status
+  debug:
+    msg: "Exit Status : {{cmdOut.rc}}"
+
+- when: cmdOut.rc != 0
+  name: Create User Roboshop
+  become: true
+  user:
+    name: roboshop
+
+- name: Check /app directory is available or not
+  stat:
+    path: /app
+  register: directory
+- name: Print directory status
+  debug:
+    msg: "Directory Status : {{directory}}"
+
+- when: directory.stat.exists == False
+  name: Create app directory if not availabe
+  file:
+    path: /app
+    state: directory
+
+- name: Download {{component}} Artifacts
+  get_url:
+    url:  https://roboshop-builds.s3.amazonaws.com/{{component}}.zip
+    dest: /tmp
+
+- name: Unzipping the Artifacts
+  unarchive:
+    src: /tmp/{{component}}.zip
+    dest: /app
+    remote_src: yes
