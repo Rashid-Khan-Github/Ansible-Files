@@ -1,0 +1,19 @@
+- name: Setting and Configuring Python
+  import_role:
+    name: common
+    tasks_from: python-setup
+
+- name: Setup Application (roboshop user creation, /app dir, downloading and unzipping artifacts)
+  import_role:
+    name: common
+    tasks_from: app-setup
+
+- name: Install Dependencies
+  command: pip3.6 install -r requirements.txt
+  args:
+    chdir: /app
+
+- name: Copying service file and reloading service
+  import_role:
+    name: common
+    tasks_from: systemd-setup

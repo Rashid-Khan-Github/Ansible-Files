@@ -1,0 +1,8 @@
+- name: Installing Python Packages
+  yum:
+    name: "{{item}}"
+    state: installed
+  loop:
+  - python36
+  - gcc
+  - python3-devel
