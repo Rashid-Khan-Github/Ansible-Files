@@ -3,7 +3,7 @@
     name: https://rpms.remirepo.net/enterprise/remi-release-8.rpm -y
     state: installed
     disable_gpg_check: true
-
+    
 - name: Enable Redis 6.2
   command: yum module enable redis:remi-6.2 -y
 
@@ -11,7 +11,7 @@
   yum:
     name: redis
     state: installed
-    
+
 - name: Allow remote connections to redis
   replace:
     path: /etc/redis.conf
