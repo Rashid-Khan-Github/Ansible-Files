@@ -1,0 +1,38 @@
+- name: Install Nginx
+  yum:
+    name: nginx
+    state: installed
+
+- name: Enable and Start Nginx
+  service:
+    name: nginx
+    state: started
+    enabled: yes
+
+- name: Removing default html directory
+  file:
+    path: /usr/share/nginx/html
+    state: absent
+
+- name: Creating new html directory
+  file:
+    path: /usr/share/nginx/html
+    state: directory
+
+- name: Downloading Web Archive
+  get_url:
+    url: https://roboshop-builds.s3.amazonaws.com/web.zip
+    dest: /tmp
+
+- name: Unarchiving the Artifacts
+  unarchive:
+    src: /tmp/web.zip
+    dest: /usr/share/nginx/html
+    remote_src: yes
+
+- name: Copying the roboshop.conf
+  template:
+    src: roboshop.conf
+    dest: /etc/nginx/default.d/roboshop.conf
+  notify:
+  - restart nginx

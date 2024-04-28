@@ -1,0 +1,5 @@
+CATALOGUE_HOST: catalogue.bsebregistration.com
+USER_HOST: user.bsebregistration.com
+CART_HOST: cart.bsebregistration.com
+SHIPPING_HOST: shipping.bsebregistration.com
+PAYMENT_HOST: payment.bsebregistration.com
