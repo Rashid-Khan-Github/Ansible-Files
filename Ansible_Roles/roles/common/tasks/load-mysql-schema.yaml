@@ -1,0 +1,7 @@
+- name: Installing Mysql Client
+  yum:
+    name: mysql
+    state: installed
+
+- name: Loading data into Mysql
+  shell: mysql -h mysql.bsebregistration.com -uroot -pRoboShop@1 < /app/schema/{{component}}.sql 

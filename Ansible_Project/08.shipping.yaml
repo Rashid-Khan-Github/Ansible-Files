@@ -6,11 +6,11 @@
     yum:
       name: maven
       state: installed
-  
+
   - name: Check whether user "Roboshop" is available
-      command: id roboshop
-      register: cmdOut
-      ignore_errors: true
+    command: id roboshop
+    register: cmdOut
+    ignore_errors: true
 
   - when: cmdOut.rc != 0
     name: Create User Roboshop
@@ -65,7 +65,7 @@
   - name: Load Mysql Schema
     shell: mysql -h mysql.bsebregistration.com -uroot -pRoboShop@1 < /app/schema/shipping.sql 
 
-    - name: Restarting shipping Service
+  - name: Restarting shipping Service
     service:
       name: shipping
       state: restarted

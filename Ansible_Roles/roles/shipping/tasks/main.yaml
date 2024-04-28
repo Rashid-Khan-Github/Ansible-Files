@@ -1,0 +1,29 @@
+- name: Setting Maven
+  import_role:
+    name: common
+    tasks_from: maven-setup
+
+- name: Setup Application (roboshop user creation, /app dir, downloading and unzipping artifacts)
+  import_role:
+    name: common
+    tasks_from: app-setup
+
+- name: Maven Package
+  command: mvn clean package
+  args:
+    chdir: /app
+
+- name: Rename jar file
+  command: mv target/shipping-1.0.jar shipping.jar
+  args:
+    chdir: /app
+
+- name: Installing MySql-shell and loading {{component}} data
+  import_role:
+    name: common
+    tasks_from: load-mysql-schema
+
+- name: Copying service file and reloading service
+  import_role:
+    name: common
+    tasks_from: systemd-setup
