@@ -1,6 +1,8 @@
 #! /bin/bash
 
-NAMES=("redis" "user" "cart" "mysql" "shipping" "rabbitmq" "payment")
+# Server Names = "web" "mongodb" "catalogue" redis" "user" "cart" "mysql" "shipping" "rabbitmq" "payment"
+
+NAMES=("web" "mongodb" "catalogue")
 INSTANCE_TYPE=""
 IMAGE_ID=ami-0f3c7d07486cad139
 SECURITY_GROUP_ID=sg-03e2563eefcedfe47

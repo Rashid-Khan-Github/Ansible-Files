@@ -52,6 +52,7 @@
       src: /tmp/catalogue.zip
       dest: /app
       remote_src: yes
+      
   - name: Change the directory to /app and install dependencies
     command: npm install
     args:
