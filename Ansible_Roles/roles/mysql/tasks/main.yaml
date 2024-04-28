@@ -1,0 +1,21 @@
+- name: Disable Current Mysql Version
+  command: yum module disable mysql -y
+
+- name: Copy Mysql Repo
+  copy:
+    src: mysql.repo
+    dest: /etc/yum.repos.d/mysql.repo
+
+- name: Install Mysql Community Server
+  yum:
+    name: mysql-community-server
+    state: installed
+
+- name: Start and Enable Mysql 
+  service:
+    name: mysqld
+    state: started
+    enabled: true
+
+- name: Setup Mysql Root Password 
+  command: mysql_secure_installation --set-root-pass RoboShop@1
