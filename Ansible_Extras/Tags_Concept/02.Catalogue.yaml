@@ -3,81 +3,79 @@
   become: true
   tasks:
   - name: Setup NPM Source
-    shell: "curl -sL https://rpm.nodesource.com/setup_lts.x | bash"
     tags:
     - installation
-
+    shell: "curl -sL https://rpm.nodesource.com/setup_lts.x | bash"
 
   - name: Install NodeJs
+    tags:
+    - installation
     yum:
       name: nodejs
-      state: installed
-      tags:
-      - installation      
+      state: installed   
 
   - name: Check whether user "Roboshop" is available
+    tags:
+    - installation
     command: id roboshop
     register: cmdOut
     ignore_errors: true
-    tags:
-    - installation
 
   - name: Print Command Output
+    tags:
+    - installation
     debug:
       msg: "Command Output : {{cmdOut}}"
-    tags:
-    - installation
 
   - name: Print Exit Status
-    debug:
-      msg: "Exit Status : {{cmdOut.rc}}"
     tags:
     - installation
+    debug:
+      msg: "Exit Status : {{cmdOut.rc}}"
   
   - when: cmdOut.rc != 0
     name: Create User Roboshop
+    tags:
+    - installation
     become: true
     user:
       name: roboshop
-    tags:
-    - installation
 
   - name: Check /app directory is available or not
+    tags:
+    - installation
     stat:
       path: /app
     register: directory
-    tags:
-    - installation
 
   - name: Print directory status
-    debug:
-      msg: "Directory Status : {{directory}}"
     tags:
     - installation
-
+    debug:
+      msg: "Directory Status : {{directory}}"
 
   - when: directory.stat.exists == False
     name: Create app directory if not availabe
+    tags:
+    - installation
     file:
       path: /app
       state: directory
-    tags:
-    - installation
 
   - name: Download Catalogue Artifacts
+    tags:
+    - deployment
     get_url:
       url:  https://roboshop-builds.s3.amazonaws.com/catalogue.zip
       dest: /tmp
-    tags:
-    - deployment
   
   - name: Unzipping the Artifacts
+    tags:
+    - deployment
     unarchive:
       src: /tmp/catalogue.zip
       dest: /app
       remote_src: yes
-    tags:
-    - deployment
       
   - name: Change the directory to /app and install dependencies
     tags:
