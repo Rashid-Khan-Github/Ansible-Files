@@ -1,5 +1,6 @@
 - name: Understanding hetrogenous feature
   hosts: centos:ubuntu    # all
+  become: true
   tasks:
   - name: print all the facts
     debug:
