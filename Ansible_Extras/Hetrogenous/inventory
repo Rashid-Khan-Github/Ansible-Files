@@ -1,5 +1,5 @@
 [centos]
-54.90.153.202 ansible_user=rhel
+172.31.17.95 ansible_user=user
 
 [ubuntu]
 172.31.20.205 ansible_user=ubuntu
