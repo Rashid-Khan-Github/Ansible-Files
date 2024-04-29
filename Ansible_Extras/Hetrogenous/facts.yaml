@@ -1,0 +1,14 @@
+- name: Understanding hetrogenous feature
+  hosts: centos:ubuntu    # all
+  tasks:
+  - name: print all the facts
+    debug:
+      msg: "All Facts : {{ansible_facts}}"
+
+  - name: add user ubuntu
+    command: adduser mishima
+    when: ansible_facts['distribution'] == "Ubuntu"
+
+  - name: add user centos
+    command: adduser mishima
+    when: ansible_facts['distribution'] == "RHEL9"
