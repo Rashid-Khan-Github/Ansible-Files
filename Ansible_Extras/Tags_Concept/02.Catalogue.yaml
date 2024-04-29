@@ -1,0 +1,132 @@
+- name: Install catalogue service
+  hosts: catalogue
+  become: true
+  tasks:
+  - name: Setup NPM Source
+    shell: "curl -sL https://rpm.nodesource.com/setup_lts.x | bash"
+    tags:
+    - installation
+
+
+  - name: Install NodeJs
+    yum:
+      name: nodejs
+      state: installed
+      tags:
+      - installation      
+
+  - name: Check whether user "Roboshop" is available
+    command: id roboshop
+    register: cmdOut
+    ignore_errors: true
+    tags:
+    - installation
+
+  - name: Print Command Output
+    debug:
+      msg: "Command Output : {{cmdOut}}"
+    tags:
+    - installation
+
+  - name: Print Exit Status
+    debug:
+      msg: "Exit Status : {{cmdOut.rc}}"
+    tags:
+    - installation
+  
+  - when: cmdOut.rc != 0
+    name: Create User Roboshop
+    become: true
+    user:
+      name: roboshop
+    tags:
+    - installation
+
+  - name: Check /app directory is available or not
+    stat:
+      path: /app
+    register: directory
+    tags:
+    - installation
+
+  - name: Print directory status
+    debug:
+      msg: "Directory Status : {{directory}}"
+    tags:
+    - installation
+
+
+  - when: directory.stat.exists == False
+    name: Create app directory if not availabe
+    file:
+      path: /app
+      state: directory
+    tags:
+    - installation
+
+  - name: Download Catalogue Artifacts
+    get_url:
+      url:  https://roboshop-builds.s3.amazonaws.com/catalogue.zip
+      dest: /tmp
+    tags:
+    - deployment
+  
+  - name: Unzipping the Artifacts
+    unarchive:
+      src: /tmp/catalogue.zip
+      dest: /app
+      remote_src: yes
+    tags:
+    - deployment
+      
+  - name: Change the directory to /app and install dependencies
+    tags:
+    - deployment
+    command: npm install
+    args:
+      chdir: /app
+
+
+  - name: copy catalogue service file to systemd
+    tags:
+    - installation
+    copy:
+      src: catalogue.service
+      dest: /etc/systemd/system/catalogue.service 
+
+  - name: Reloading Daemon
+    tags:
+    - installation
+    systemd:
+      daemon_reload: true
+
+  - name: Copy mongodb repo to yum.repos.d
+    tags:
+    - installation
+    copy:
+      src: mongo.repo
+      dest: /etc/yum.repos.d/mongo.repo
+
+  - name: Install MongoDB
+    tags:
+    - installation
+    yum:
+      name: mongodb-org-shell
+      state: installed
+  
+  - name: Loading data into MongoDB
+    tags:
+    - installation
+    shell: mongo --host mongodb.bsebregistration.com < /app/schema/catalogue.js
+
+  - name: Restarting Catalogue Service
+    tags:
+    - deployment
+    service:
+      name: catalogue
+      state: restarted
+      enabled: yes
+
+
+      
+
