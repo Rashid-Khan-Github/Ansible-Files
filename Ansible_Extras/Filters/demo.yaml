@@ -24,6 +24,6 @@
 
   - name: Splitting the String
     debug:
-      msg: "Splitted String = {{ Greeting | split(',')} }"
+      msg: "Splitted String = {{ Greeting | split(',') }}"
 
   
