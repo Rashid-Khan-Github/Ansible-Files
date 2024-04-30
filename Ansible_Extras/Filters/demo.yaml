@@ -1,0 +1,29 @@
+- name: Funtions in ansible
+  hosts: localhost
+  vars:
+    NAME: Heihachi Mishima
+    website: http://www.joindevops.com/batch-74s/24
+    Greeting: Hello All, Are you there, What is Ansible
+
+  tasks:
+  - name: Convert into uppercase
+    debug:
+      msg: "Hello {{NAME | upper}}"
+
+  - name: Convert into lowercase
+    debug:
+      msg: "Hello {{NAME | lower}}"
+
+  - name: Convert into uppercase
+    debug:
+      msg: "Course is {{ COURSE | default('DevOps') }}"
+
+  - name: Extract Host name
+    debug:
+     msg: "Host name from url = {{ website | urlsplit('hostname') }}"
+
+  - name: Splitting the String
+    debug:
+      msg: "Splitted String = {{ Greeting | split(',')} }"
+
+  
